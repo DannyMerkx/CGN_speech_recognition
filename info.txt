@@ -1,0 +1,11 @@
+DNN - scripts for training neural networks on the data as prepared using this toolbox
+
+kaldi - scripts for doing forced alignment using kaldi on the CGN database
+
+Preprocessing - processed raw audio data to several acoustic features
+
+transcripts - transcripts I made for CGN using kaldi
+
+transcripts_cgn - the original CGN transcripts
+
+speaker_info - script to create train/test/val sets based on speaker info, e.g. keeping the amount of men/women equal between sets

@@ -1,0 +1,29 @@
+this folder contains scripts for getting features from wav files and labelling them. They are meant to be used with transcripts made using kaldi. 
+
+Files:
+
+-cepstrum; functions for creating the MFCCs, option to stop at filterbanks can be set in main
+
+-data_functions; functions for listing the input files, creating the phoneme dictionary and checking if the 
+input files are correct.
+
+-feature_table.txt; maps CGN phonemes to articulatory features.
+
+-filters; functions to create and apply filterbanks.
+
+-label_func; functions to handle the transcripts and label the data.
+
+-main; this is to place your data path and other parameters like the number of filters and framewidth.
+Run this script to create MFCCs or filterbanks for your data.
+
+-melfreq; functions to convert Hz to mel and vice versa.
+
+-preproc; contains the main preprocessing steps like fourier transform, padding, preemphasis and hamming windowing. 
+
+-process_data; this is called by the main function and applies all necessary steps for each datafile and saves the data in a h5 file.
+
+Acknowledgements:
+
+feature_table.txt was created by Odette Scharenborg
+
+How to use; first run prep_transcripts (only needed once) to convert clean the transcripts of headers etc and convert the string labels integers. Next choose your settings and set your paths in main.py and just run main.py

@@ -1,0 +1,5 @@
+speaker_info.py - run to create a split between training test and validation sets with some speaker balancing, e.g. try to keep the percentage of men/women equal, no overlap in speakers between the sets etc. Saves a split.npy file which can be used by the DNN training scripts to create and load the proper datasplit
+
+speakers.txt - file with speaker info provided with CGN
+
+

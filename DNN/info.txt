@@ -1,0 +1,21 @@
+This folder contains scripts for running a DNN on your MFCCs or Filterbanks
+
+files:
+
+-dnn_data; scripts to load your dataset into train, val and test sets. 
+
+-dnn; conv net implementation
+
+-dnn_filt; conv net with in-built and trainable filterbank conversion
+
+-filters.npy; triangular filter coefficients for dnn_filt;
+
+-filters2.npy; same as filters.npy but without 0 values for the coefficients.
+
+-split.npy; file detailing for each wav file whether it belongs to train test or val.
+
+Acknowledgements:
+
+dnn files were started from a Lasagne example file.
+
+

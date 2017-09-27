@@ -1,0 +1,36 @@
+This folder contains scripts needed to make new transcript files for CGN. It mainly concerns converting data from CGN format to a format accepted by kaldi and then from kaldi output back to the format we need.
+Contains some files which are also used for the MFCCs, but placing them in here as well means the folder structure does not necessarily have to remain intact. 
+
+Files:
+
+-convert_transcript; converts kaldi created transcripts to our format which just contains for every phoneme in the transcript a begin and end time and the name of the phoneme, in chronological order.
+
+-data_functions; some functions to handle data.
+
+-Kaldi_data_train; creates the files which are needed in your kaldi /data folder. You can change some
+settings such as choose between speaker adaptive or speaker independent models, out of vocabulary token (default '<oov>'), long list of characters that need to be replaced (such as replacing % with 'procent').  NOTE, if you want to change something here the replacements need to be consistent with the replacements done in kaldi_lexicon.py and lex.py or your segments file and lexicon will not match. 
+
+-kaldi_lexicon; prepares a lexicon for kaldi, starting with an existing lexicon and filling in any missing words with CGN awd transcripts.
+
+-kaldi_phones; creates a list of all the phonemes that occur in your dataset. Do not use a standard list of all CGN phonemes, if by chance some rare phoneme is not used in your dataset, kaldi will start complaining. 
+
+-label_func; used for parsing CGN transcripts.
+
+-lex; creates a lexicon from CGN awd transcripts, in order to fill in the gaps in the pre-made lexicon. 
+
+-lexicon.text; an existing lexicon, contains many but not all words used in CGN. 
+
+-splitAlignments; kaldi delivers the alignments for all audio files in one big file. Use this script
+to create seperate transcript files for each audio file.
+
+How to use: run kaldi_data_train first to create some essential files needed by your kaldi project. Next run kaldi_phones to get a list of all the phones occuring in your dataset. Kaldi_lexicon is used next to create a lexicon of all the words and their pronunciations occuring in your database. After this step you have all the files needed to train the HMM-GMMs in kaldi and do forced alignment.
+
+After the forced aligmnent use splitAlignments to split the single Kaldi output file back into your original seperate speech files. Then use convert_transcript to put these transcripts into a format that can be used to label your data in the preprocessing pipeline.
+
+
+Acknowledgements;
+
+Kaldi_data_train is created by Emre Yilmaz
+splitAlignments is created by Eleanor Chodroff
+
+

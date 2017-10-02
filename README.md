@@ -1,1 +1,0 @@
-# CGN_speech_recognition

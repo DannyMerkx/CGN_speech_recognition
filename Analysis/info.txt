@@ -1,0 +1,3 @@
+Run confusion_matrix (more analysis techniques were added later) to create and save an image of the confusion matrix and a log file with metrics as f1, accuracy, chance levels etc.
+
+AFvectors is only used by the analysis script to load the NN output.

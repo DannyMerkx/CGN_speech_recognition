@@ -11,3 +11,5 @@ transcripts_cgn - the original CGN transcripts
 speaker_info - script to create train/test/val sets based on speaker info, e.g. keeping the amount of men/women equal between sets
 
 Analysis - scripts to analyse the NN output.
+
+Fine-tracker - scripts to prepare NN output for use with Fine-tracker

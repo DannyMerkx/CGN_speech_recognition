@@ -1,0 +1,3 @@
+prep_AFs: run to prepare NN output into a txt file of AF vectors usable by fine-tracker
+
+AFvectors: some usefull functions for loading the data and reordering it in a format accepted by fine-tracker

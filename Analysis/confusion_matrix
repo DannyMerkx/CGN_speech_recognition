@@ -15,6 +15,14 @@ from sklearn.metrics import confusion_matrix as confusion
 import itertools
 import os
 from AFvectors import load_predictions, load_targets
+import argparse 
+
+parser = argparse.ArgumentParser(description='apply several evaluation metrics and create a confusion matrix')
+parser.add_argument('-loc', type = str, default = '/home/danny/Downloads/mlp_predictions',
+                    help = 'location of your NN output files')
+args = parser.parse_args()
+
+
 
 def predictions(loc, pred_files, targ_files, af):
 # function to load the network predictions and labels and also return the max predicted
@@ -109,11 +117,11 @@ def main(af, loc):
     class_names_backness= ['central', 'back', 'front', 'nil' ]
     class_names_height= ['mid','low','high','nil']
     class_names_round= ['unrounded','rounded','nil']
-    class_names_dur=['short','long','diphthongue', 'nil']
+    class_names_dur=['short','long','diphthong', 'nil']
     
     # dict of AFs
     af_dict = {'place': class_names_place , 'manner': class_names_manner, 'height': class_names_height,
-          'voice': class_names_voice, 'back': class_names_backness, 'dur': class_names_dur, 'round': class_names_round}
+          'voicing': class_names_voice, 'backness': class_names_backness, 'duration': class_names_dur, 'rounding': class_names_round}
     
     files = os.listdir(loc)
     files.sort()
@@ -127,7 +135,7 @@ def main(af, loc):
     # plot the confusion matrix
     fig = plt.figure()
     plot_confusion_matrix(conf, classes=af_dict[af], normalize=True,
-                          title='Normalized confusion matrix')
+                          title='Feature: ' + af )
     fig.savefig(os.path.join(loc, af + '_conf_matrix.png'))
     plt.close(fig)
     # write all the evaluation metrics to a log file
@@ -146,9 +154,10 @@ def main(af, loc):
         file.write('f1 (weighted, micro, macro): ' +str(numpy.round(f1[0:-1],4)) + '\n')
         file.write('f1 per class: ' +str(numpy.round(f1[-1],4))+ '\n')
     return acc, conf, norm_conf, weighted_class, f1
+
 # location of the predictions and target files
-loc = '/home/danny/Downloads/mlp_cgn_predictions'
-af_names = ['manner', 'place', 'voice', 'height', 'back', 'dur', 'round']
+loc = args.loc
+af_names = ['manner', 'place', 'voicing', 'height', 'backness', 'duration', 'rounding']
 with open(os.path.join(loc, 'analysis_log.txt'), 'w') as file:
     file.write('analysis log for articulatory feature classification' + '\n')    
 

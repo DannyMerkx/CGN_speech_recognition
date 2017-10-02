@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Oct  2 22:19:41 2017
+
+@author: danny
+"""
+
+# prepare the data for Fine-tracker. Take the predictions provided
+# by the network scripts, output articulatory feature vectors in txt
+# format expected by fine-tracker
+
+from AFvectors import reorder
+import numpy 
+import os
+import argparse
+
+parser = argparse.ArgumentParser(description='prepare NN output for use with fine-tracker')
+parser.add_argument('-loc', type = str, default = '/home/danny/Downloads',
+                    help = 'location of your NN output files')
+parser.add_argument('-out_file', type = str, default ='input.txt')
+args = parser.parse_args()
+
+# function to prepare af vectors for use with fine-tracker
+#location of the prediction files
+loc = '/home/danny/Downloads/mlp_predictions'
+# order in which the AF class labels appear in the prediction files
+class_names_place= ['nil_place', 'bilabial', 'alveolar', 'labiodental', 'velar', 'glottal', 'palatal', 'silence_place' ]
+class_names_manner= ['vowel', 'plosive','fricative','glide','liquid','nasal','retroflex','silence_manner']
+class_names_voice= ['voiced','unvoiced']
+class_names_backness= ['central', 'back', 'front', 'nil_back' ]
+class_names_height= ['mid','low','high','nil_height']
+class_names_round= ['unrounded','rounded','nil_round']
+class_names_dur=['short','long','diphthong', 'nil_dur']
+     
+# dictionary of all the articulatory features and the class labels
+class_dict = {'place': class_names_place , 'manner': class_names_manner, 'height': class_names_height,
+      'voice': class_names_voice, 'back': class_names_backness, 'dur': class_names_dur, 'round': class_names_round}
+
+# order in which the features should appear in the final af vectors.
+vector_order = {'fricative': 0, 'glide': 1, 'liquid': 2, 'nasal': 3, 'plosive': 4,
+           'retroflex': 5, 'silence_manner': 6, 'vowel': 7, 'alveolar': 8, 'bilabial': 9,
+           'glottal': 10, 'labiodental': 11, 'silence_place': 12, 'palatal': 13, 'nil_place': 14,
+           'velar': 15, 'unvoiced': 16, 'voiced': 17, 'back': 18, 'central': 19,
+           'front': 20, 'nil_back': 21, 'nil_round': 22, 'rounded':23, 'unrounded': 24,
+           'diphthong': 25, 'long': 26, 'nil_dur': 27, 'short': 28, 'high': 29,
+           'low': 30, 'mid': 31, 'nil_height': 32} 
+af_order = ['manner', 'place', 'voice', 'back', 'round', 'dur', 'height']
+
+af_vector = reorder(loc, class_dict, vector_order, af_order )
+af_vector = numpy.reshape(af_vector,[33,-1])
+
+with open(os.path.join(loc, args.out_file), 'w') as file:
+    file.write('--test_set_AFs \n')
+    for x in numpy.transpose(af_vector):
+        for y in x:
+            file.write(str(numpy.round(y,2)) + ' ')
+        file.write('\n')
